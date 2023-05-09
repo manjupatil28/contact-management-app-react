@@ -3,114 +3,98 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { editContact } from '../Redux/action';
 
-
 function EditContact() {
+  const { id } = useParams(); // get id from URL parameters
+  console.log(id);
 
+  const dispatch = useDispatch(); // get dispatch function from redux
+  const AllContact = useSelector((store) => store.contacts); // get all contacts from redux store
 
-    const { id } = useParams()
-    console.log(id)
+  const [form, setForm] = useState({}); // initialize form state
 
-    const dispatch = useDispatch()
+  // handle input change and update form state
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
 
-    const AllContact = useSelector((store) => store.contacts)
+  // handle save button click and dispatch editContact action
+  function handleSave() {
+    dispatch(editContact({ id, ...form }));
+  }
 
+  // use effect hook to update form state with selected contact when component mounts
+  useEffect(() => {
+    AllContact.filter((el) => el.id == id && setForm(el));
+  }, []);
 
-
-    const [form, setForm] = useState({})
-
-    const handleChange = (e) => {
-     
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
-
-
-    }
-
-
-
-
-    function handleSave() {
-
-
-
-        dispatch(editContact({ id, ...form }))
-
-    }
-
-    useEffect(() => {
-
-        AllContact.filter((el) => el.id == id && setForm(el))
-
-    }, [])
-
-    return (
-        <div className="w-1/2 mx-auto my-4 pt-16">
-            <h2 className="text-2xl font-bold mb-4">Edit Contact</h2>
-            <div className="mb-4">
-                <label className="block font-bold mb-2" htmlFor="first-name">
-                    First Name
-                </label>
-                <input
-                    className="w-full border border-gray-400 p-2 rounded-md"
-                    id="first-name"
-                    type="text"
-                    name="first_name"
-                    value={form.first_name}
-                    onChange={handleChange}
-                />
-            </div>
-            <div className="mb-4">
-                <label className="block font-bold mb-2" htmlFor="last-name">
-                    Last Name
-                </label>
-                <input
-                    className="w-full border border-gray-400 p-2 rounded-md"
-                    id="last-name"
-                    type="text"
-                    name="last_name"
-                    value={form.last_name}
-                    onChange={handleChange}
-                />
-            </div>
-            <div className="mb-4">
-                <label className="block font-bold mb-2" htmlFor="last-name">
-                    Mobile Number
-                </label>
-                <input
-                    className="w-full border border-gray-400 p-2 rounded-md"
-                    id="last-name"
-                    type="number"
-                    name="mob"
-                    value={form.mob}
-                    onChange={handleChange}
-                />
-            </div>
-            <div className="mb-4">
-                <label className="block font-bold mb-2" htmlFor="status">
-                    Status
-                </label>
-                <select
-                    className="w-full border border-gray-400 p-2 rounded-md"
-                    id="status"
-                    name="status"
-                    value={form.status}
-                    onChange={handleChange}
-                >
-                    <option value={'active'}>Active</option>
-                    <option value={"inactive"}>Inactive</option>
-                </select>
-            </div>
-            <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleSave}
-            >
-                Save Contact
-            </button>
-        </div>
-    );
+  return (
+    <div className="w-1/2 mx-auto my-4 pt-16">
+      <h2 className="text-2xl mb-4">Edit Contact</h2>
+      <div className="mb-4">
+        <label className="block mb-2" htmlFor="first-name">
+          First Name
+        </label>
+        <input
+          className="w-full border border-purple-900 p-2 rounded-md"
+          id="first-name"
+          type="text"
+          name="first_name"
+          value={form.first_name}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block mb-2" htmlFor="last-name">
+          Last Name
+        </label>
+        <input
+          className="w-full border border-purple-900 p-2 rounded-md"
+          id="last-name"
+          type="text"
+          name="last_name"
+          value={form.last_name}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block mb-2" htmlFor="last-name">
+          Mobile Number
+        </label>
+        <input
+          className="w-full border border-purple-900 p-2 rounded-md"
+          id="last-name"
+          type="number"
+          name="mob"
+          value={form.mob}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block mb-2" htmlFor="status">
+          Status
+        </label>
+        <select
+          className="w-full border border-purple-900 p-2 rounded-md"
+          id="status"
+          name="status"
+          value={form.status}
+          onChange={handleChange}
+        >
+          <option value={'active'}>Active</option>
+          <option value={"inactive"}>Inactive</option>
+        </select>
+      </div>
+      <button
+        className="bg-purple-900 hover:bg-purple-700 text-white py-2 px-4 rounded"
+        onClick={handleSave}
+      >
+        Save Contact
+      </button>
+    </div>
+  );
 }
 
-
-export default EditContact
+export default EditContact;

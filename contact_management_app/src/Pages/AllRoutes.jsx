@@ -4,14 +4,15 @@ import Contacts from "./Contacts"
 import Dashboard from "./Charts_and_Maps"
 import EditContact from "../Components/Edit_Contact"
 import ContactForm from "../Components/ContactForm"
-const AllRoutes=()=>{
 
+//Defining routes to all the components
+const AllRoutes=()=>{
 
     return(
         <Routes >
             <Route path="/" element={<Contacts/>}/>
             <Route path="/contact_form" element={<ContactForm/>}/>
-            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/charts-and-maps" element={<Dashboard/>}/>
             <Route path="/edit/:id" element={<EditContact/>}/>
         </Routes>
     )

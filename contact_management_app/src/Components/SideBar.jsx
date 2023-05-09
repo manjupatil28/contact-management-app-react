@@ -1,9 +1,11 @@
 import contact from '../utils/contact-book.png';
 import bar from '../utils/bar-chart.png';
 import { Link } from "react-router-dom"
+
+//SideBar Component
 export default function Sidebar() {
     return (
-        <div className="flex border-r-2">
+        <div className="lg:flex lg:border-r-2 hidden">
             <div className="flex pt-16 flex-col h-screen p-3 bg-white shadow w-60">
                 <div className="space-y-3">
                     <div className="flex items-center">
@@ -22,7 +24,7 @@ export default function Sidebar() {
                             </li>
                             <li className="rounded-sm">
                                 <Link
-                                    to="/dashboard"
+                                    to="/charts-and-maps"
                                     className="flex items-center p-2 space-x-3 rounded-md">
                                     <img src={bar} alt="" />
                                     <span>Charts And Maps</span>

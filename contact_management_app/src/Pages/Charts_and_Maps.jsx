@@ -1,9 +1,8 @@
+// Import necessary dependencies
 import axios from "axios";
-
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-
 
 import {
   CategoryScale,
@@ -16,41 +15,29 @@ import {
   Tooltip,
 } from 'chart.js';
 
-
-
 import { MapContainer, TileLayer } from "react-leaflet";
-
 import WorldMap from "../Components/WorldMap";
 
-
-
-
-
 const Dashboard = () => {
+  // Define state variables
   const [countriesData, setCountriesData] = useState([]);
   const [chartData, setChartData] = useState({});
 
-
-
+  // Fetch countries data and update state
   useEffect(() => {
     axios(
       "https://disease.sh/v3/covid-19/countries"
-    )
-      .then((res) => {
-        const data = res.data
-        setCountriesData(data);
-      })
-
-
+    ).then((res) => {
+      const data = res.data
+      setCountriesData(data);
+    })
   }, []);
 
+  // Fetch chart data and update state, and register chart elements
   useEffect(() => {
-
-
     axios.get(
       "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
     ).then((res) => {
-
       const data = res.data
 
       const newChartData = {
@@ -60,7 +47,7 @@ const Dashboard = () => {
             label: "Cases",
             data: Object.values(data.cases),
             fill: false,
-            borderColor: "#f50057",
+            borderColor: "#4A148C",
             tension: 0.2,
           },
         ],
@@ -68,7 +55,6 @@ const Dashboard = () => {
 
       setChartData(newChartData);
     })
-
 
     ChartJS.register(
       CategoryScale,
@@ -79,60 +65,30 @@ const Dashboard = () => {
       Tooltip,
       Legend
     );
-
   }, []);
 
-
+  // Render the dashboard
   return (
-    <div className="  w-full pt-20 px-4 pb-8" >
-      <h1 className="text-4xl font-bold mb-4 text-pink-600">Corona Cases Chart</h1>
-      <div className="border-2 border-red-100 w-11/12  m-auto 10 auto 10" >
-
-        {
-          chartData.datasets ?
-            <Line data={chartData} /> : <h1 className="text-pink-600 mb-4 font-bold text-2xl">Loading...</h1>
+    <div className="w-full pt-20 px-4 pb-8">
+      <h1 className="max-w-full text-3xl mb-4 text-purple-900">Corona Cases Chart</h1>
+      <div className="max-w-full border-2 border-purple-900 w-11/12 m-auto 10 auto 10">
+        {chartData.datasets ?
+          <Line data={chartData} /> :
+          <h1 className="text-purple-900 mb-4 text-2xl">Loading...</h1>
         }
-
-
-
-
       </div>
-
-
-      <h1 className="text-4xl font-bold mb-4 mt-4 text-blue-500">Corona Cases World Map</h1>
-      <div
-        className="border-2 border-blue-500 w-11/12  m-auto 5 auto 5"
-
-      >
+      <h1 className="text-3xl mb-4 mt-4 text-purple-900">Corona Cases World Map</h1>
+      <div className="border-2 border-purple-900 w-11/12 m-auto 5 auto 5">
         <MapContainer
-
           className="m-auto w-full  border-blue-700"
           bounds={[[-60, -180], [85, 180]]} zoom={2}
           center={[20, 40]}
           scrollWheelZoom={true}
-
         >
-
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-          />
-
-
-
-
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <WorldMap countriesData={countriesData} />
-
         </MapContainer>
-
-
-
-
       </div>
-
-
-
-
     </div>
   );
 };

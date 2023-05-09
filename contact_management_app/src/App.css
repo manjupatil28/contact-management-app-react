@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Verdana', sans-serif;
 }
 
 .App-logo {
@@ -15,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #e5e8ee;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
